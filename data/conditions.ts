@@ -17,6 +17,13 @@ export const Conditions: {[k: string]: ConditionData} = {
 			this.damage(pokemon.baseMaxhp / 16);
 		},
 	},
+	tor: {
+		name: 'tor',
+		effectType: 'Status',
+		onStart(target, source, sourceEffect) {
+				this.add('-status', target, 'tor', '[silent]');
+		}
+	},
 	par: {
 		name: 'par',
 		effectType: 'Status',
@@ -651,6 +658,14 @@ export const Conditions: {[k: string]: ConditionData} = {
 		durationCallback(source, effect) {
 			if (source?.hasItem('icyrock')) {
 				return 8;
+			} if (source?.hasAbility('sleet') && source.activeTurns === 1) {
+				return 4;
+			} if (source?.hasAbility('sleet') && source.activeTurns === 2) {
+				return 3;
+			} if (source?.hasAbility('sleet') && source.activeTurns === 3) {
+				return 2;
+			} if (source?.hasAbility('sleet') && source.activeTurns === 4) {
+				return 1;
 			}
 			return 5;
 		},
@@ -702,6 +717,86 @@ export const Conditions: {[k: string]: ConditionData} = {
 		onFieldResidual() {
 			this.add('-weather', 'Snow', '[upkeep]');
 			if (this.field.isWeather('snow')) this.eachEvent('Weather');
+		},
+		onFieldEnd() {
+			this.add('-weather', 'none');
+		},
+	},
+	sleet: {
+		name: 'Sleet',
+		effectType: 'Weather',
+		duration: 5,
+		durationCallback(source, effect) {
+			if (source?.hasItem('icyrock')) {
+				return 8;
+			}
+			return 5;
+		},
+		onFieldStart(battle, source, effect) {
+			if (effect?.effectType === 'Ability') {
+				if (this.gen <= 5) this.effectState.duration = 0;
+				this.add('-weather', 'Sleet', '[from] ability: ' + effect, '[of] ' + source);
+			} else {
+				this.add('-weather', 'Sleet');
+			}
+		},
+		onFieldResidualOrder: 1,
+		onFieldResidual() {
+			this.add('-weather', 'Sleet', '[upkeep]');
+			if (this.field.isWeather('sleet')) this.eachEvent('Weather');
+		},
+		onWeather(target) {
+			this.damage(target.baseMaxhp / 5);
+		},
+		onFieldEnd() {
+			this.add('-weather', 'none');
+		},
+	},
+	newmoon: {
+		name: 'NewMoon',
+		effectType: 'Weather',
+		duration: 5,
+		durationCallback(source, effect) {
+			if (source?.hasItem('darkrock')) {
+				return 8;
+			}
+			return 5;
+		},
+		onWeatherModifyDamage(damage, attacker, defender, move) {
+			if (defender.hasItem('utilityumbrella')) return;
+			if (move.type === 'Ghost') {
+				this.debug('New Moon Ghost boost');
+				return this.chainModify(1.35);
+			}
+			if (move.type === 'Dark') {
+				this.debug('New Moon Dark boost');
+				return this.chainModify(1.35);
+			}
+			if (move.type === 'Fairy') {
+				this.debug('New Moon Fairy suppress');
+				return this.chainModify(0.75);
+			}
+		},
+		onFieldStart(battle, source, effect) {
+			if (effect?.effectType === 'Ability') {
+				if (this.gen <= 5) this.effectState.duration = 0;
+				this.add('-weather', 'NewMoon', '[from] ability: ' + effect, '[of] ' + source);
+			} else {
+				this.add('-weather', 'NewMoon');
+			}
+		},
+		onImmunity(type, pokemon) {
+			if (pokemon.hasItem('utilityumbrella')) return;
+		},
+		onModifySpe(spe, pokemon) {
+			if (pokemon.hasAbility('shadowdance') && !pokemon.hasItem('utilityumbrella')) {
+				this.chainModify(2);
+			}
+		},
+		onFieldResidualOrder: 1,
+		onFieldResidual() {
+			this.add('-weather', 'NewMoon', '[upkeep]');
+			this.eachEvent('Weather');
 		},
 		onFieldEnd() {
 			this.add('-weather', 'none');
@@ -842,7 +937,7 @@ export const Conditions: {[k: string]: ConditionData} = {
 		name: 'Arceus',
 		onTypePriority: 1,
 		onType(types, pokemon) {
-			if (pokemon.transformed || pokemon.ability !== 'multitype' && this.gen >= 8) return types;
+			if (pokemon.transformed || (pokemon.ability !== 'multitype' || pokemon.ability !== 'ancientpresence') && this.gen >= 8) return types;
 			let type: string | undefined = 'Normal';
 			if (pokemon.ability === 'multitype') {
 				type = pokemon.getItem().onPlate;
@@ -868,17 +963,10 @@ export const Conditions: {[k: string]: ConditionData} = {
 			return [type];
 		},
 	},
-	rolloutstorage: {
-		name: 'rolloutstorage',
-		duration: 2,
-		onBasePower(relayVar, source, target, move) {
-			let bp = Math.max(1, move.basePower);
-			bp *= Math.pow(2, source.volatiles['rolloutstorage'].contactHitCount);
-			if (source.volatiles['defensecurl']) {
-				bp *= 2;
-			}
-			source.removeVolatile('rolloutstorage');
-			return bp;
+	amoongussdelta: {
+		name: 'Amoonguss',
+		onSwitchOut() {
+			this.add(`c|${getName('Amogus')}|purple sus`);
 		},
 	},
 };
