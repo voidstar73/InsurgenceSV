@@ -2952,7 +2952,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 			randomStat = stats.length ? this.sample(stats) : undefined;
 			if (randomStat) boost[randomStat] = -1;
 
-			this.boost(boost);
+			this.boost(boost, pokemon, pokemon);
 		},
 		name: "Moody",
 		rating: 5,
