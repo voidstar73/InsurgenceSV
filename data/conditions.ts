@@ -956,10 +956,4 @@ export const Conditions: {[k: string]: ConditionData} = {
 			return [type];
 		},
 	},
-	amoongussdelta: {
-		name: 'Amoonguss',
-		onSwitchOut() {
-			this.add(`c|${getName('Amogus')}|purple sus`);
-		},
-	},
 };
