@@ -178,8 +178,6 @@ export class Species extends BasicEffect implements Readonly<BasicEffect & Speci
 	 * This is mainly relevant to Gen 5.
 	 */
 	readonly maleOnlyHidden: boolean;
-	/** True if a pokemon has a delta */
-	readonly hasDelta?: boolean;
 	/** True if a pokemon is mega. */
 	readonly isMega?: boolean;
 	/** True if a pokemon is primal. */
@@ -504,7 +502,10 @@ export class DexSpecies {
 			}
 			species.nfe = species.evos.some(evo => {
 				const evoSpecies = this.get(evo);
-				return !evoSpecies.isNonstandard || evoSpecies.isNonstandard === species?.isNonstandard;
+				return !evoSpecies.isNonstandard ||
+					evoSpecies.isNonstandard === species?.isNonstandard ||
+					// Pokemon with Hisui evolutions
+					evoSpecies.isNonstandard === "Unobtainable";
 			});
 			species.canHatch = species.canHatch ||
 				(!['Ditto', 'Undiscovered'].includes(species.eggGroups[0]) && !species.prevo && species.name !== 'Manaphy');
