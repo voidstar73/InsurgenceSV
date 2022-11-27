@@ -3671,7 +3671,7 @@ export const MovesText: {[k: string]: MoveText} = {
 	makeitrain: {
 		name: "Make It Rain",
 		desc: "Lowers the user's Special Attack by 1 stage.",
-		shortDesc: "Lowers the user's Sp. Atk by 1.",
+		shortDesc: "Lowers the user's Sp. Atk by 1. Hits foe(s).",
 	},
 	maliciousmoonsault: {
 		name: "Malicious Moonsault",
