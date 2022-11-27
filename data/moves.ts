@@ -26,6 +26,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 
 */
 
+import { Pokemon } from "../sim";
+
 export const Moves: {[moveid: string]: MoveData} = {
 	"10000000voltthunderbolt": {
 		num: 719,
@@ -1298,7 +1300,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		pp: 10,
 		priority: 0,
 		flags: {protect: 1},
-		// Move disabling implemented in Battle#nextTurn in sim/battle.js
+		onDisableMove(pokemon) {
+			if (!pokemon.ateBerry) pokemon.disableMove('belch');
+		},
 		secondary: null,
 		target: "normal",
 		type: "Poison",
@@ -7410,7 +7414,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		pp: 5,
 		priority: 0,
 		flags: {protect: 1, mirror: 1},
-		// Move disabling implemented in Battle#nextTurn in sim/battle.ts
+		onDisableMove(pokemon) {
+			if (!pokemon.ateBerry) pokemon.disableMove('gigatonhammer');
+		},
 		secondary: null,
 		target: "normal",
 		type: "Steel",
@@ -20568,7 +20574,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		pp: 10,
 		priority: 0,
 		flags: {snatch: 1},
-		// Move disabling implemented in Battle#nextTurn in sim/battle.ts
+		onDisableMove(pokemon) {
+			if (!pokemon.ateBerry) pokemon.disableMove('stuffcheeks');
+		},
 		onTry(source) {
 			const item = source.getItem();
 			if (item.isBerry && source.eatItem(true)) {
