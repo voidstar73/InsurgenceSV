@@ -668,7 +668,8 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 		gen8: {
 			desc: "If Hail is active, this Pokemon restores 1/16 of its maximum HP, rounded down, at the end of each turn. This Pokemon takes no damage from Hail.",
 			shortDesc: "If Hail is active, this Pokemon heals 1/16 of its max HP each turn; immunity to Hail.",
-		},	},
+		},
+	},
 	iceface: {
 		name: "Ice Face",
 		desc: "If this Pokemon is an Eiscue, the first physical hit it takes in battle deals 0 neutral damage. Its ice face is then broken and it changes forme to Noice Face. Eiscue regains its Ice Face forme when Snow begins or when Eiscue switches in while Snow is active. Confusion damage also breaks the ice face.",
@@ -676,7 +677,8 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 		gen8: {
 			desc: "If this Pokemon is an Eiscue, the first physical hit it takes in battle deals 0 neutral damage. Its ice face is then broken and it changes forme to Noice Face. Eiscue regains its Ice Face forme when Hail begins or when Eiscue switches in while Hail is active. Confusion damage also breaks the ice face.",
 			shortDesc: "If Eiscue, the first physical hit it takes deals 0 damage. This effect is restored in Hail.",
-		},	},
+		},
+	},
 	icescales: {
 		name: "Ice Scales",
 		shortDesc: "This Pokemon receives 1/2 damage from special attacks.",
@@ -1270,8 +1272,8 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 	},
 	protosynthesis: {
 		name: "Protosynthesis",
-		desc: "If Sunny Day is active, or this Pokemon is holding Booster Energy, this Pokemon's highest stat is boosted by 50%.",
-		shortDesc: "If Sunny Day is active or Booster Energy held, the highest stat is 1.5x.",
+		desc: "If Sunny Day is active or this Pokemon has used a held Booster Energy, this Pokemon's highest stat is multiplied by 1.3, or by 1.5 if the highest stat is Speed.",
+		shortDesc: "While Sunny Day or Booster Energy are active, highest stat is 1.3x, or 1.5x if Speed.",
 
 		activate: "  The harsh sunlight activated [POKEMON]'s Protosynthesis!",
 		activateFromItem: "  [POKEMON] used its Booster Energy to activate Protosynthesis!",
@@ -1298,8 +1300,8 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 	},
 	quarkdrive: {
 		name: "Quark Drive",
-		desc: "If Electric Terrain is active, or this Pokemon is holding Booster Energy, this Pokemon's highest stat is boosted by 50%.",
-		shortDesc: "If Electric Terrain is active or Booster Energy held, the highest stat is 1.5x.",
+		desc: "If Electric Terrain is active or this Pokemon has used a held Booster Energy, this Pokemon's highest stat is multiplied by 1.3, or by 1.5 if the highest stat is Speed.",
+		shortDesc: "While Electric Terrain or Booster Energy are active, highest stat is 1.3x, or 1.5x if Speed.",
 
 		activate: "  The Electric Terrain activated [POKEMON]'s Quark Drive!",
 		activateFromItem: "  [POKEMON] used its Booster Energy to activate its Quark Drive!",
@@ -1757,7 +1759,6 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 		desc: "This Pokemon's Attack and Special Attack stats are increased by 10% for each fainted teammate.",
 		shortDesc: "This Pokemon's Attack and Special Attack raise by 10% per fainted teammate.",
 
-		start: "  [POKEMON] gained strength from the fallen!",
 		activate: "  [POKEMON] gained strength from the fallen!",
 	},
 	surgesurfer: {
